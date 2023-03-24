@@ -1,0 +1,20 @@
+html  {
+    scroll-behavior: smooth;
+	}
+body{
+font-family: 'Verdana', sans-serif;
+}
+	.fs-container, .fs-container2 {
+    width: var(--scrollbar-width);
+    margin-left: calc(0vw - (var(--scrollbar-width)/2) + 50%) !important;
+		margin-top: -27px;
+	}
+	
+	.fs-content {
+    position: relative;
+    left: 50%;
+    max-width: 920px;
+    width: 100%;
+    transform: translate(-50%, 0);
+    padding: 50px 0;
+}
