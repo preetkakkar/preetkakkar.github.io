@@ -1,0 +1,80 @@
+html  {
+    scroll-behavior: smooth;
+	}
+body{
+font-family: 'Verdana', sans-serif;
+}
+	.fs-container, .fs-container2 {
+    width: var(--scrollbar-width);
+    margin-left: calc(0vw - (var(--scrollbar-width)/2) + 50%) !important;
+		margin-top: -27px;
+	}
+	
+	.fs-content {
+    position: relative;
+    left: 50%;
+    max-width: 920px;
+    width: 100%;
+    transform: translate(-50%, 0);
+    padding: 50px 0;
+}
+	.flex-parent-div{
+		overflow: hidden;
+		display: flex;
+    	flex-wrap: wrap;
+    	justify-content: space-between;
+		margin-bottom: 50px;
+	}
+	.flex-left-div{
+		width: 48%;
+		display: inline-block;
+		overflow: hidden;
+		float: left;
+		max-width: 600px
+	}
+
+	.flex-right-div{
+		width: 48%;
+		display: inline-block;
+		overflow: hidden;
+		float: right;
+		max-width: 600px;
+		
+	}
+
+.flex-parent-three {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+	flex-direction: row;
+}
+.flex-three-child{
+    width: 31%;
+    /* float: left; */
+    display: inline-block;
+	border: 1px solid black;
+}
+.flex-three-child h3{
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+
+	.flex-left-div{
+		width: 100%;
+	}
+
+	.flex-right-div{
+		width: 100%;
+		margin-top: 20px;
+		
+	}
+	.flex-parent-three {
+	flex-direction: column;
+	}
+	.flex-three-child{
+    width: 80%;
+	margin: 20px;
+	}
+}
