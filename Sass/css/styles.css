@@ -1,0 +1,85 @@
+$myFont: Brush Script MT;
+$bgcolor: #ebf9fe;
+$headingcolor: green;
+$subheadingcolor: blue;
+$myColor: #000;
+$myFontSize: 20px;
+$myWidth: 680px;
+
+
+@mixin important-text {
+  color: red;$myFont: Brush Script MT;
+$bgcolor: #ebf9fe;
+$headingcolor: green;
+$subheadingcolor: blue;
+$myColor: #000;
+$myFontSize: 20px;
+$myWidth: 680px;
+
+
+@mixin important-text {
+  color: red;
+  font-size: 22px;
+  font-weight: bold;
+  border: 1px solid blue;
+  padding:10px;
+}
+
+body {
+  font-family: $myFont;
+  background: $bgcolor;
+  font-size: $myFontSize;
+  color: $myColor;
+}
+h1{
+  color: $headingcolor;
+}
+
+h2{
+  color: $subheadingcolor;
+}
+
+.container {
+  width: $myWidth;
+  margin:0 auto;
+  background:#fff;
+  padding:50px;
+  text-align:center;
+}
+
+.danger {
+  @include important-text;
+  background-color: #d6e9c6;
+}
+  font-size: 22px;
+  font-weight: bold;
+  border: 1px solid blue;
+  padding:10px;
+}
+
+body {
+  font-family: $myFont;
+  background: $bgcolor;
+  font-size: $myFontSize;
+  color: $myColor;
+}
+h1{
+  color: $headingcolor;
+}
+
+h2{
+  color: $subheadingcolor;
+}
+
+.container {
+  width: $myWidth;
+  margin:0 auto;
+  background:#fff;
+  padding:50px;
+  text-align:center;
+}
+
+.danger {
+  @include important-text;
+  background-color: #d6e9c6;
+}
