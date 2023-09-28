@@ -1,23 +1,22 @@
-html  {
-    scroll-behavior: smooth;
-	}
 body{
-font-family: 'Verdana', sans-serif;
+  background-color:ffffff;
+  font-family: Helvetica, sans-serif;
 }
-	.fs-container, .fs-container2 {
-    width: var(--scrollbar-width);
-    margin-left: calc(0vw - (var(--scrollbar-width)/2) + 50%) !important;
-		margin-top: -27px;
-	}
-	
-	.fs-content {
-    position: relative;
-    left: 50%;
-    max-width: 920px;
-    width: 100%;
-    transform: translate(-50%, 0);
-    padding: 50px 0;
+
+#container{
+  background-color:#abdcf9;
+  max-width:800px;
+  margin:0 auto;
+  padding:50px 100px;
 }
+
+h1{
+  text-align:center;
+}
+h2{
+  text-align:center;
+}
+
 	.flex-parent-div{
 		overflow: hidden;
 		display: flex;
@@ -42,6 +41,40 @@ font-family: 'Verdana', sans-serif;
 		
 	}
 
+.button-tab{
+  background:#fcd109;
+  border-radius:15px;
+  padding:15px 30px;
+  border: 1px solid black;
+}
+
+a{
+  color:#000;
+  text-decoration:none;
+}
+  
+a:hover{
+  color:#000;
+  text-decoration:none; 
+}
+
+
+.button-txt{
+  font-size:20px;
+  letter-spacing: 1px;
+  padding:10px 20px;
+}
+
+p{
+  padding:30px 20px;
+  color:#606060;
+  letter-spacing: 1px;
+  font-size:18px;
+  font-weight:600;
+  line-height:24px;  
+}
+
+
 .flex-parent-three {
     display: flex;
     justify-content: space-between;
@@ -54,6 +87,8 @@ font-family: 'Verdana', sans-serif;
     /* float: left; */
     display: inline-block;
 	border: 1px solid black;
+  background:#fcd109;
+  border-radius:15px;
 }
 .flex-three-child h3{
     text-align: center;
@@ -74,7 +109,7 @@ font-family: 'Verdana', sans-serif;
 	flex-direction: column;
 	}
 	.flex-three-child{
-    width: 80%;
+    	width: 80%;
 	margin: 20px;
 	}
 }
