@@ -7,7 +7,7 @@ if (isset($_GET['action']) && ($_GET['action'] == 'process')) {
   $user_name = $_POST["userName"];
   $customer_email = $_POST["userEmail"];
   $company = $_POST["company"];
-  $message = $_POST["message"];
+  $message = $nl2br($_POST["message"]); // Converts newlines to <br>
   $phone_number = $_POST["phone_number"];
   $state = $_POST["state"];
 
