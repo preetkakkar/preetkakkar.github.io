@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 Level Mega Menu</title>
+	<script  type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <style>
+   /* Basic Menu */
+.mega-menu {
+  position: relative;
+  font-family: Arial, sans-serif;
+	background-color: #003366;
+    color: white;
+    position: relative;
+}
+
+.menu {
+  list-style: none;
+	width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+}
+
+.menu-item {
+  position: relative;
+}
+
+.menu-item > a {
+  display: block;
+  padding: 14px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.menu-item:hover > a {
+  background: #f5f5f5;
+  color: #0073aa;
+}
+
+/* Mega Menu Container */
+.mega-content {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 1200px;
+  background: #fff;
+  border: 1px solid #ddd;
+  z-index: 1000;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.menu-item:hover .mega-content { display: flex; }
+	
+.mega-content ul li a{
+	text-decoration: none;
+	color: #777;
+	font-weight: 500;
+}
+
+/* Columns */
+.mega-col { flex: 1; transition: all 0.3s ease; }
+.main-cats { background: #f9f9f9; flex: 0 0 25%; border-right: 1px solid #eee; }
+.sub-cats  { flex: 0 0 25%; border-right: 1px solid #eee; display: none; }
+.sub-sub-cats { flex: 0 0 50%; display: none; padding: 40px 20px; }
+
+/* Show only when active */
+.sub-cats.active, .sub-sub-cats.active { display: block; }
+
+/* Main categories */
+.main-cats ul { margin: 0; padding: 20px 0; list-style: none; }
+.main-cats ul li{ margin-bottom: 0;}
+.main-cat { padding: 12px 16px; cursor: pointer; transition: background 0.3s; }
+.main-cat:hover, .main-cat.active { background: #0073aa; color: #fff; }
+.main-cat.active a.catlink{ color: #fff;}
+.main-cat a.catlink:hover, .main-cat.active { background: #0073aa; color: #fff; }
+.main-cat .arrow {
+  display: none;
+  font-size: 14px;
+  margin-left: 6px;
+  color: #777;
+  transition: transform 0.3s;
+}
+.main-cat.active .arrow { transform: rotate(90deg); color: #fff; }
+
+/* Subcategories */
+.subcat-group { display: none; padding: 10px 20px; }
+.subcat-group ul {list-style: none; margin: 0; padding: 0;}
+.subcat-group ul li{padding: 5px 0;}
+.subcat-group.active { display: block; animation: fadeIn 0.3s ease; }
+.sub-cat { padding: 5px 12px; cursor: pointer; transition: background 0.3s; }
+.sub-cat:hover, .sub-cat.active { color: #000; text-decoration: underline}
+.sub-cat a.subcatlink:hover { color: #000;}	
+.subcat-group h3 {line-height: 28px; margin-bottom: 2rem; border-bottom: 1px solid #efefef; color: #003366}
+
+/* Sub-subcategories */
+.subsub-group { display: none; flex-wrap: wrap; gap: 20px; animation: fadeIn 0.3s ease; }
+.subsub-group.active { display: flex; }
+.subsub-group .item { text-align: center; width: 28%; }
+.subsub-group img { width: 100px; height: 70px; border-radius: 8px; object-fit: cover; margin-bottom: 5px; transition: transform 0.3s; }
+.subsub-group img:hover { transform: scale(1.05); }
+.subsub-group i { width: 100px; height: 70px; font-size: 50px; border-radius: 8px; object-fit: cover; margin-bottom: 5px; transition: transform 0.3s; color: #0073aa;}
+.subsub-group i:hover { transform: scale(1.05); }
+.subsub-group a { color: #333; text-decoration: none; }
+.subsub-group a:hover { color: #0073aa; }
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+	
+/* ========== RESPONSIVE MEGA MENU ========== */
+@media (max-width: 768px) {
+
+  /* Stack layout for smaller screens */
+ @media (max-width: 768px) {
+  .mega-content {
+    position: static;
+    flex-direction: column;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  .mega-col { flex: 1 1 100%; border: none; display: block; }
+  .main-cats { background: #f9f9f9; border-right: none; }
+  .main-cat .arrow { display: inline-block; }
+
+  /* hide subcats & sub-subcats initially */
+  .sub-cats, .sub-sub-cats { display: none !important; }
+
+  .main-cat.active + .sub-cats {
+    display: block !important;
+    padding: 10px 15px;
+    background: #fff;
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<nav class="mega-menu">
+  <ul class="menu">
+	<li class="menu-item"><a href="#">Home</a></li> 
+    <li class="menu-item has-mega">
+      <a href="#">Products</a>
+       <div class="mega-content">
+		  
+        <!-- COLUMN 1: MAIN CATEGORIES -->
+		  <div class="mega-col main-cats">
+			  <ul>
+				  <li class="main-cat active" data-target="boats"><a class="catlink" href="#"><i class="fa fa-ship"></i>&nbsp;&nbsp;Boats, Motors and Trailers</a></li>
+				  <li class="main-cat" data-target="cameras"><a class="catlink" href="#"><i class="fa fa-camera-retro"></i>&nbsp;&nbsp;Cameras and Surveillance</a></li>
+				  <li class="main-cat" data-target="clothing"><a class="catlink" href="#"><i class="fas fa-tshirt"></i>&nbsp;&nbsp;Clothing and Fishing</a></li> 
+ 
+				  <li class="main-cat" data-target="deck-hull"><a class="catlink" href="#"><i class="fas fa-anchor"></i>&nbsp;&nbsp;Deck, Hardware</a></li>  
+				  <li class="main-cat" data-target="electrical"><a class="catlink" href="#"><i class="fas fa-laptop"></i>&nbsp;&nbsp;Electrical</a></li>
+				  <li class="main-cat" data-target="lighting"><a class="catlink" href="#"><i class="fa fa-lightbulb"></i>&nbsp;&nbsp;&nbsp;Lighting</a></li>
+		
+				  <li class="main-cat" data-target="safety"><a class="catlink" href="#"><i class="fa fa-life-ring"></i>&nbsp;&nbsp;Safety Equipments</a></li>
+				  <li class="main-cat" data-target="cat9"><a class="catlink" href="#"><i class="fas fa-microphone-alt"></i>&nbsp;&nbsp;&nbsp;Category 9</a></li> 
+				  <li class="main-cat" data-target="cat10"><a class="catlink" href="#"><i class="fa fa-automobile"></i>&nbsp;&nbsp;&nbsp;Cars and Accesories</a></li>  
+				  <li class="main-cat" data-target="cat11"><a class="catlink" href="#"><i class="fa fa-book"></i>&nbsp;&nbsp;&nbsp;Stationary</a></li>  
+				  <li class="main-cat" data-target="products"><a class="catlink" href="#"><i class="fa fa-ship"></i>&nbsp;&nbsp;View All Products</a></li>
+			  </ul>
+          </div>
+		  
+
+        <!-- COLUMN 2: SUBCATEGORIES -->
+		  <div class="mega-col sub-cats">
+			   
+			  <div class="subcat-group" id="boats">
+				  <h3>Boats, Motors and Trailers</h3>
+				  <ul>
+					  <li class="sub-cat" data-target="boats-sub1"><a class="subcatlink" href="#">Sub Category 1</a></li>
+					  <li class="sub-cat" data-target="boats-sub2"><a class="subcatlink" href="#">Sub Category 2</a></li>
+					  <li class="sub-cat" data-target="boats-sub3"><a class="subcatlink" href="#">Sub Category 3</a></li>
+					  <li class="sub-cat" data-target="boats-sub4"><a class="subcatlink" href="#">Sub Category 4</a></li>
+					  <li class="sub-cat" data-target="boats-sub5"><a class="subcatlink" href="#">Sub Category 5</a></li>
+				  </ul>
+			  </div>
+			  
+			  <div class="subcat-group" id="cameras">
+				  <h3>Cameras and Surveillance</h3>
+				  <ul>
+					  <li class="sub-cat" data-target="cameras-sub1"><a class="subcatlink" href="#">Sub Category 1</a></li>
+					  <li class="sub-cat" data-target="cameras-sub2"><a class="subcatlink" href="#">Sub Category 2</a></li>
+					  <li class="sub-cat" data-target="cameras-sub3"><a class="subcatlink" href="#">Sub Category 3</a></li>
+					  <li class="sub-cat" data-target="cameras-sub4"><a class="subcatlink" href="#">Sub Category 4</a></li>
+					  <li class="sub-cat" data-target="cameras-sub5"><a class="subcatlink" href="#">Sub Category 5</a></li>
+				  </ul>
+			  </div>
+			  
+			  <div class="subcat-group" id="clothing">
+				  <h3>Clothing and Fishing</h3>
+				  <ul>
+					  <li class="sub-cat" data-target="clothing-sub1"><a class="subcatlink" href="#">Sub Category 1</a></li>
+					  <li class="sub-cat" data-target="clothing-sub2"><a class="subcatlink" href="#">Sub Category 2</a></li>
+
+				  </ul>
+			  </div>
+			  
+			  <!--- Use same pattern for other Categories> -->
+			 
+		  </div>
+        
+
+      
+		  <!-- COLUMN 3: SUB-SUBCATEGORIES WITH IMAGES -->
+		  		  
+        <div class="mega-col sub-sub-cats">
+			
+			<div class="subsub-group" id="boats-sub1">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="boats-sub2">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="boats-sub3">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="boats-sub4">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="boats-sub5">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-ship"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="cameras-sub1">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="cameras-sub2">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="cameras-sub3">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="cameras-sub4">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="cameras-sub5">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fa fa-camera-retro"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="clothing-sub1">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+            </div>
+			
+			<div class="subsub-group" id="clothing-sub2">
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub1</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub2</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub3</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub4</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub5</a>
+				</div>
+				<div class="item">
+				<!--	<img src="/images/categories/inflatable-boats.jpg" alt="inflatable-boats">-->
+					<i class="fas fa-tshirt"></i><br />
+					<a href="#">sub-sub6</a>
+				</div>
+            </div>
+			
+			<!---- Keep addind sub sub categories  --->
+			
+
+        </div>
+      </div>
+    </li>
+	<li class="menu-item"><a href="#">About Us</a></li>   
+	 <li class="menu-item"><a href="#">Contact Us</a></li>   
+	</ul>
+</nav>
+<script>
+// Hover behavior for desktop
+const mainCats = document.querySelectorAll('.main-cat');
+const subCols = document.querySelector('.sub-cats');
+const subSubCols = document.querySelector('.sub-sub-cats');
+const subGroups = document.querySelectorAll('.subcat-group');
+const subCats = document.querySelectorAll('.sub-cat');
+const subSubGroups = document.querySelectorAll('.subsub-group');
+
+if (window.innerWidth >= 768) {
+  mainCats.forEach(main => {
+    main.addEventListener('mouseenter', () => {
+      mainCats.forEach(c => c.classList.remove('active'));
+      main.classList.add('active');
+
+      // Show second column
+      subCols.classList.add('active');
+      subGroups.forEach(g => g.classList.remove('active'));
+      document.getElementById(main.dataset.target)?.classList.add('active');
+
+      // Hide third column initially
+      subSubCols.classList.remove('active');
+    });
+  });
+
+  subCats.forEach(sub => {
+    sub.addEventListener('mouseenter', () => {
+      subCats.forEach(c => c.classList.remove('active'));
+      sub.classList.add('active');
+
+      // Show third column
+      subSubCols.classList.add('active');
+      subSubGroups.forEach(g => g.classList.remove('active'));
+      document.getElementById(sub.dataset.target)?.classList.add('active');
+    });
+  });
+}
+
+// Click behavior for mobile
+if (window.innerWidth < 768) {
+  document.querySelectorAll('.main-cat').forEach(cat => {
+    const arrow = document.createElement('span');
+    arrow.classList.add('arrow');
+    arrow.innerHTML = '▸';
+    cat.appendChild(arrow);
+
+    cat.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      // Close other categories
+      document.querySelectorAll('.main-cat').forEach(c => {
+        if (c !== cat) c.classList.remove('active');
+      });
+
+      document.querySelectorAll('.subcat-group').forEach(g => g.classList.remove('active'));
+
+      // Toggle this one
+      cat.classList.toggle('active');
+
+      const target = cat.getAttribute('data-target');
+      const group = document.getElementById(target);
+      if (group && cat.classList.contains('active')) {
+        group.classList.add('active');
+      }
+    });
+  });
+}
+</script>
+
+
+</body>
+</html>
